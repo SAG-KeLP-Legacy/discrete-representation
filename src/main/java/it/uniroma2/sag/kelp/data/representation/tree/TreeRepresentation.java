@@ -16,9 +16,10 @@
 package it.uniroma2.sag.kelp.data.representation.tree;
 
 import it.uniroma2.sag.kelp.data.representation.Representation;
+import it.uniroma2.sag.kelp.data.representation.tree.node.TreeNode;
 import it.uniroma2.sag.kelp.data.representation.tree.utils.TreeIO;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -29,8 +30,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
  * Tree Representation used for example to represent the syntactic tree of a
- * sentence. It can be exploited by convolution kernels Nodes are labeled while
- * edges are not
+ * sentence. It can be exploited by convolution kernels
  * 
  * @author Danilo Croce, Giuseppe Castellucci
  */
@@ -42,42 +42,19 @@ public class TreeRepresentation implements Representation {
 	/**
 	 * The root node of the tree
 	 */
-	private TreeNode root;
+	protected TreeNode root;
 
 	/**
 	 * The complete set of tree nodes ordered alphabetically by label. Used by
 	 * several Tree Kernel functions.
 	 */
-	private TreeNode[] orderedNodeSetByLabel;
+	protected List<TreeNode> orderedNodeSetByLabel;
 
 	/**
 	 * The complete set of tree nodes ordered alphabetically by production
 	 * string. Used by several Tree Kernel functions.
 	 */
-	private TreeNode[] orderedNodeSetByProduction;
-	/**
-	 * The complete set of labels of tree nodes ordered alphabetically. Used by
-	 * several Tree Kernel functions.
-	 */
-	private String nodeNamesSorted[];
-
-	/**
-	 * The complete set of indexes of tree nodes ordered alphabetically. Used by
-	 * several Tree Kernel functions.
-	 */
-	private int[] nodeIdsSortedByName;
-
-	/**
-	 * The complete set of indexes of tree nodes ordered alphabetically by node
-	 * production. Used by several Tree Kernel functions.
-	 */
-	private int[] nodeIdsSortedByProduction;
-
-	/**
-	 * The complete set of production names ordered alphabetically. Used by
-	 * several Tree Kernel functions.
-	 */
-	private String productionNamesSorted[];
+	protected List<TreeNode> orderedNodeSetByProduction;
 
 	/**
 	 * Compare tree nodes by Label
@@ -109,37 +86,8 @@ public class TreeRepresentation implements Representation {
 	 */
 	public TreeRepresentation(TreeNode root) {
 		this.root = root;
-
-		List<TreeNode> allNodes = root.getAllNodes();
-
-		TreeNode res[] = new TreeNode[allNodes.size()];
-		res = allNodes.toArray(res);
-		Arrays.sort(res, AlphabeticalLabelComparator);
-
-		orderedNodeSetByLabel = new TreeNode[res.length];
-		for (int i = 0; i < res.length; i++) {
-			orderedNodeSetByLabel[i] = res[i];
-		}
-		nodeNamesSorted = new String[orderedNodeSetByLabel.length];
-		nodeIdsSortedByName = new int[orderedNodeSetByLabel.length];
-		for (int i = 0; i < orderedNodeSetByLabel.length; i++) {
-			nodeNamesSorted[i] = orderedNodeSetByLabel[i].getLabel();
-			nodeIdsSortedByName[i] = orderedNodeSetByLabel[i].getId();
-		}
-		Arrays.sort(res, AlphabeticalProductionComparator);
-		orderedNodeSetByProduction = new TreeNode[res.length];
-		for (int i = 0; i < res.length; i++) {
-			orderedNodeSetByProduction[i] = res[i];
-		}
-
-		productionNamesSorted = new String[orderedNodeSetByProduction.length];
-		nodeIdsSortedByProduction = new int[orderedNodeSetByProduction.length];
-		for (int i = 0; i < orderedNodeSetByLabel.length; i++) {
-			productionNamesSorted[i] = orderedNodeSetByProduction[i]
-					.getProduction();
-			nodeIdsSortedByProduction[i] = orderedNodeSetByProduction[i]
-					.getId();
-		}
+		this.getOrderedNodeSetByLabel();
+		this.getOrderedNodeSetByProduction();
 	}
 
 	@Override
@@ -162,36 +110,57 @@ public class TreeRepresentation implements Representation {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return the complete set of nodes
+	 */
 	@JsonIgnore
-	public int[] getNodeIdsSortedByName() {
-		return nodeIdsSortedByName;
+	public List<TreeNode> getAllNodes() {
+		return root.getAllNodes();
 	}
 
-	@JsonIgnore
-	public int[] getNodeIdsSortedByProduction() {
-		return nodeIdsSortedByProduction;
+	/**
+	 * Get the max id within all nodes
+	 * 
+	 * @return the max id value
+	 */
+	public Integer getMaxId() {
+		return root.getMaxId();
 	}
 
+	/**
+	 * @return the complete set of nodes ordered alphabetically by the node
+	 *         label
+	 */
 	@JsonIgnore
-	public String[] getNodeNames() {
-		return nodeNamesSorted;
-	}
+	public List<TreeNode> getOrderedNodeSetByLabel() {
+		if (this.orderedNodeSetByLabel == null) {
+			orderedNodeSetByLabel = root.getAllNodes();
 
-	@JsonIgnore
-	public TreeNode[] getOrderedNodeSetByLabel() {
+			Collections
+					.sort(orderedNodeSetByLabel, AlphabeticalLabelComparator);
+		}
 		return orderedNodeSetByLabel;
 	}
 
+	/**
+	 * @return the complete set of nodes ordered alphabetically by production
+	 *         string
+	 */
 	@JsonIgnore
-	public TreeNode[] getOrderedNodeSetByProduction() {
+	public List<TreeNode> getOrderedNodeSetByProduction() {
+		if (this.orderedNodeSetByProduction == null) {
+			orderedNodeSetByProduction = root.getAllNodes();
+
+			Collections.sort(orderedNodeSetByProduction,
+					AlphabeticalProductionComparator);
+		}
 		return orderedNodeSetByProduction;
 	}
 
-	@JsonIgnore
-	public String[] getProductionNames() {
-		return productionNamesSorted;
-	}
-
+	/**
+	 * @return the tree root
+	 */
 	@JsonIgnore
 	public TreeNode getRoot() {
 		return root;
@@ -210,29 +179,15 @@ public class TreeRepresentation implements Representation {
 	@Override
 	public void setDataFromText(String representationDescription)
 			throws Exception {
-		TreeRepresentation i = TreeIO
+		TreeRepresentation i = new TreeIO()
 				.parseCharniakSentence(representationDescription);
 		this.root = i.root;
 		this.orderedNodeSetByLabel = i.orderedNodeSetByLabel;
 		this.orderedNodeSetByProduction = i.orderedNodeSetByProduction;
-		this.nodeNamesSorted = i.nodeNamesSorted;
-		this.nodeIdsSortedByName = i.nodeIdsSortedByName;
-		this.productionNamesSorted = i.productionNamesSorted;
-		this.nodeIdsSortedByProduction = i.nodeIdsSortedByProduction;
 	}
 
 	@Override
 	public String toString() {
 		return root.toString();
 	}
-
-	/**
-	 * Get the max id within all nodes
-	 * 
-	 * @return the max id value
-	 */
-	public Integer getMaxId() {
-		return root.getMaxId();
-	}
-
 }

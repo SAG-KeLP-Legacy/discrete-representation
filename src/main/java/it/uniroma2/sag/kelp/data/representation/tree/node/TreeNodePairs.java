@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-package it.uniroma2.sag.kelp.data.representation.tree;
+package it.uniroma2.sag.kelp.data.representation.tree.node;
 
 import java.io.Serializable;
 

@@ -15,8 +15,8 @@
 
 package it.uniroma2.sag.kelp.data.representation.tree.utils;
 
-import it.uniroma2.sag.kelp.data.representation.tree.TreeNode;
 import it.uniroma2.sag.kelp.data.representation.tree.TreeRepresentation;
+import it.uniroma2.sag.kelp.data.representation.tree.node.TreeNode;
 
 /**
  * Parse a tree in a string format.
@@ -47,7 +47,7 @@ public class TreeIO {
 	 *             his exception is trown if any problem in the tree IO phase is
 	 *             experimented
 	 */
-	public static TreeRepresentation parseCharniakSentence(String sentence)
+	public TreeRepresentation parseCharniakSentence(String sentence)
 			throws TreeIOException {
 		String inputString = sentence.trim();
 		inputString = _preprocess(inputString);
@@ -66,8 +66,8 @@ public class TreeIO {
 	 * @return
 	 * @throws TreeIOException
 	 */
-	private static TreeNode _parseCharniakSentence(String sentence,
-			TreeNode father, Integer nodeCounter) throws TreeIOException {
+	protected TreeNode _parseCharniakSentence(String sentence, TreeNode father,
+			Integer nodeCounter) throws TreeIOException {
 		String inputString = sentence.trim();
 		String nodeString = "";
 		inputString = inputString.substring(1, inputString.length() - 1);
@@ -83,15 +83,16 @@ public class TreeIO {
 			nodeStr = inputString.substring(0, inputString.indexOf(LRB));
 		}
 
-		TreeNode node = null;
+		TreeNode node = parseNode(nodeCounter, nodeStr, father);
 		// if the node label contains a "::", it contains also a suffix
-		if (nodeStr.contains("::")) {
-			String suffix = nodeStr.substring(nodeStr.indexOf("::") + 2,
-					nodeStr.length());
-			node = new TreeNode(nodeCounter, nodeStr, suffix, father);
-		} else {
-			node = new TreeNode(nodeCounter, nodeStr, father);
-		}
+		// TODO
+		// if (nodeStr.contains("::")) {
+		// String suffix = nodeStr.substring(nodeStr.indexOf("::") + 2,
+		// nodeStr.length());
+		// node = new TreeNode(nodeCounter, nodeStr, suffix, father);
+		// } else {
+		// node = new TreeNode(nodeCounter, nodeStr, father);
+		// }
 
 		// parentheses counter
 		int pCounter = 0;
@@ -129,6 +130,11 @@ public class TreeIO {
 		return node;
 	}
 
+	protected TreeNode parseNode(int nodeCounter, String nodeStr,
+			TreeNode father) {
+		return new TreeNode(nodeCounter, nodeStr, father);
+	}
+
 	/**
 	 * This function cleans the input string, such as from spaces, before the
 	 * parsing phase.
@@ -137,7 +143,7 @@ public class TreeIO {
 	 *            The input String to be cleaned
 	 * @return The cleaned String
 	 */
-	private static String _preprocess(String inputString) {
+	protected String _preprocess(String inputString) {
 		int novelParentOpened = 0;
 		StringBuffer stringBuffer = new StringBuffer();
 		for (int i = 0; i < inputString.length(); i++) {

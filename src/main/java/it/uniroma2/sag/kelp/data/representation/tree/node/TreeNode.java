@@ -13,19 +13,23 @@
  * limitations under the License.
  */
 
-package it.uniroma2.sag.kelp.data.representation.tree;
+package it.uniroma2.sag.kelp.data.representation.tree.node;
+
+import it.uniroma2.sag.kelp.data.example.Example;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
- * A TreeNode represents a node in a TreeRepresentation
+ * A TreeNode represents a generic node in a TreeRepresentation
  * 
  * @author Danilo Croce, Giuseppe Castellucci
  * 
  */
-public class TreeNode implements Serializable, Comparable<TreeNode> {
+public class TreeNode implements Serializable {
 
 	private static final long serialVersionUID = 8192423989557300729L;
 
@@ -39,18 +43,6 @@ public class TreeNode implements Serializable, Comparable<TreeNode> {
 	 * caches. It MUST be unique for each node in the tree.
 	 */
 	private Integer id;
-
-	/**
-	 * If the label contains a delimiter string, i.e. "::" the entire string
-	 * after the delimiter is considered as a suffix. In most cases it is used
-	 * to encode the Part-of-speech tag, e.g. dog::N
-	 */
-	private String suffix;
-
-	/**
-	 * True if the node contains a suffix
-	 */
-	private boolean hasSuffix;
 
 	/**
 	 * The father of the node within the hosting tree representation
@@ -68,27 +60,29 @@ public class TreeNode implements Serializable, Comparable<TreeNode> {
 	 */
 	private String production;
 
-	public TreeNode(int id, String label, String suffix, TreeNode father) {
+	/**
+	 * Additional representation that can be attached to a node. For example a
+	 * node can be eniched with a vector.
+	 */
+	private Example additionalRepresentation;
+
+	/**
+	 * True if the additional representation has been set
+	 */
+	private boolean isAdditionalRepresentationSet;
+
+	public TreeNode(int id, String label, TreeNode father) {
 		this.id = id;
 		this.label = label;
-
-		if (suffix != null) {
-			this.suffix = suffix;
-			this.hasSuffix = true;
-		} else {
-			hasSuffix = false;
-		}
-
 		this.children = new ArrayList<TreeNode>();
 		this.father = father;
 	}
 
-	public TreeNode(int id, String label, TreeNode father) {
-		this(id, label, null, father);
-	}
-
-	public int compareTo(TreeNode o) {
-		return getId().compareTo(o.getId());
+	/**
+	 * @return The additional representation
+	 */
+	public Example getAdditionalRepresentation() {
+		return additionalRepresentation;
 	}
 
 	/**
@@ -173,14 +167,9 @@ public class TreeNode implements Serializable, Comparable<TreeNode> {
 		return production;
 	}
 
-	/**
-	 * If given, it return the node suffix, e.g. N for a tree node with label
-	 * dog::N
-	 * 
-	 * @return the node suffix. Null if the node does not have any suffix.
-	 */
-	public String getSuffix() {
-		return suffix;
+	@JsonIgnore
+	public String getType() {
+		return "NO";
 	}
 
 	public boolean hasChildren() {
@@ -189,21 +178,33 @@ public class TreeNode implements Serializable, Comparable<TreeNode> {
 		return false;
 	}
 
+	public boolean isAdditionalRepresentationSet() {
+		return isAdditionalRepresentationSet;
+	}
+
 	/**
-	 * This function returns true if the node label contains a suffix, e.g.
-	 * dog::N
-	 * 
-	 * @return true is the node contains a suffix, false otherwise
+	 * @param additionalRepresentation
+	 *            the additional representation
 	 */
-	public boolean hasSuffix() {
-		return hasSuffix;
+	public void setAdditionalRepresentation(Example additionalRepresentation) {
+		this.additionalRepresentation = additionalRepresentation;
+		this.isAdditionalRepresentationSet = true;
+	}
+
+	public void setAdditionalRepresentationSet(
+			boolean isAdditionalRepresentationSet) {
+		this.isAdditionalRepresentationSet = isAdditionalRepresentationSet;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder b = new StringBuilder();
 		b.append("(");
-		b.append(getLabel());
+		b.append(getType() + "::" + getLabel());
 		if (children != null && children.size() > 0) {
 			for (TreeNode node : children) {
 				b.append(node.toString());
