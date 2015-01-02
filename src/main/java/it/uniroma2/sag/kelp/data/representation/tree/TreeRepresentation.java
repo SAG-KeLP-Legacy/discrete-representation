@@ -61,7 +61,7 @@ public class TreeRepresentation implements Representation {
 	 */
 	private static final Comparator<TreeNode> AlphabeticalLabelComparator = new Comparator<TreeNode>() {
 		public int compare(TreeNode e1, TreeNode e2) {
-			return e1.getLabel().compareTo(e2.getLabel());
+			return e1.getContent().getTextFromData().compareTo(e2.getContent().getTextFromData());
 		}
 	};
 

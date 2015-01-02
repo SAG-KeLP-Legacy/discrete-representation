@@ -1,5 +1,3 @@
-package it.uniroma2.sag.kelp.data.representation.structure;
-
 /*
  * Copyright 2014 Simone Filice and Giuseppe Castellucci and Danilo Croce and Roberto Basili
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,6 +13,7 @@ package it.uniroma2.sag.kelp.data.representation.structure;
  * limitations under the License.
  */
 
+package it.uniroma2.sag.kelp.data.representation.structure;
 
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
@@ -28,15 +27,19 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * 
+ * This class implement a Factory Design pattern to instantiate
+ * <code>StructureElement</code> given a string representing it. </br></br>
+ * <b>Note</b>:When a new class implementing a <code>StructureElement</code> is
+ * added, it should be annotated with <code>@JsonTypeName("NEW_TYPE")</code>
+ * that is used to determine the new element. The input String will be in the
+ * form <code>NEW_TYPE##struct_content</code>
  * 
  * @author Simone Filice
  */
 public class StructureElementFactory {
 
 	public static final String TYPE_CONTENT_SEPARATOR = "##";
-	
-	
+
 	private static Logger logger = LoggerFactory
 			.getLogger(StructureElementFactory.class);
 	private static StructureElementFactory instance = null;
@@ -65,8 +68,8 @@ public class StructureElementFactory {
 	 * Retrieves all the implementations of the class
 	 * <code>StructureElement</code> included in the current project
 	 * 
-	 * @return a Map of pairs StructureElement type identifier - StructureElement
-	 *         class
+	 * @return a Map of pairs StructureElement type identifier -
+	 *         StructureElement class
 	 */
 	private Map<String, Class<? extends StructureElement>> discoverAllStructureElementImplementations()
 			throws InstantiationException, IllegalAccessException {
@@ -81,8 +84,7 @@ public class StructureElementFactory {
 				continue;
 			}
 			String structureElementAbbreviation = getStructureElementIdentifier(implementation);
-			implementatios.put(structureElementAbbreviation,
-					implementation);
+			implementatios.put(structureElementAbbreviation, implementation);
 		}
 		return implementatios;
 	}
@@ -101,15 +103,17 @@ public class StructureElementFactory {
 	 * <code>structureElementBody</code>
 	 * 
 	 * @param structureElementType
-	 *            the identifier of the structureElement class to be instantiated
+	 *            the identifier of the structureElement class to be
+	 *            instantiated
 	 * @param structureElementBody
 	 *            the the textual description of the structureElement to be
 	 *            instantiated
-	 * @return the structureElement described in <code>structureElementBody</code>
+	 * @return the structureElement described in
+	 *         <code>structureElementBody</code>
 	 */
-	protected StructureElement parseStructureElement(String structureElementType,
-			String structureElementBody) throws InstantiationException {
-
+	protected StructureElement parseStructureElement(
+			String structureElementType, String structureElementBody)
+			throws InstantiationException {
 
 		Class<? extends StructureElement> structureElementClass = this.structureElementImplementations
 				.get(structureElementType);
@@ -119,7 +123,8 @@ public class StructureElementFactory {
 		}
 
 		try {
-			StructureElement structureElement = structureElementClass.newInstance();
+			StructureElement structureElement = structureElementClass
+					.newInstance();
 			structureElement.setDataFromText(structureElementBody);
 			return structureElement;
 		} catch (Exception e) {
@@ -131,33 +136,38 @@ public class StructureElementFactory {
 		}
 
 	}
-	
-	public StructureElement parseStructureElement(String structureElementDescription) throws InstantiationException{
-		int separator = structureElementDescription.indexOf(TYPE_CONTENT_SEPARATOR);
+
+	public StructureElement parseStructureElement(
+			String structureElementDescription) throws InstantiationException {
+		int separator = structureElementDescription
+				.indexOf(TYPE_CONTENT_SEPARATOR);
 		String type;
 		String content;
-		if(separator==-1){
-			content=structureElementDescription;
+		if (separator == -1) {
+			content = structureElementDescription;
 			type = getDefaultType(structureElementDescription);
-		}else{
+		} else {
 			type = structureElementDescription.substring(0, separator);
-			content = structureElementDescription.substring(separator+TYPE_CONTENT_SEPARATOR.length());
+			content = structureElementDescription.substring(separator
+					+ TYPE_CONTENT_SEPARATOR.length());
 		}
 		return parseStructureElement(type, content);
 	}
 
 	private String getDefaultType(String structureElementDescription) {
-		if(structureElementDescription.contains(LexicalStructureElement.POS_LEMMA_SEPARATOR)){
+		if (structureElementDescription
+				.contains(LexicalStructureElement.POS_LEMMA_SEPARATOR)) {
 			return getStructureElementIdentifier(LexicalStructureElement.class);
 		}
-		
-		return getStructureElementIdentifier(SyntacticStructureElement.class);
+
+		return getStructureElementIdentifier(UntypedStructureElement.class);
 	}
 
 	/**
 	 * Returns the identifier of a given class
 	 * 
-	 * @param c the class whose identifier is requested 
+	 * @param c
+	 *            the class whose identifier is requested
 	 * @return the class identifier
 	 */
 	public static String getStructureElementIdentifier(
@@ -172,8 +182,8 @@ public class StructureElementFactory {
 		}
 		return structureElementAbbreviation;
 	}
-	
-	public static String getTextualRepresentation(StructureElement element){
+
+	public static String getTextualRepresentation(StructureElement element) {
 		String type = getStructureElementIdentifier(element.getClass());
 		String content = element.getTextFromData();
 		return type + TYPE_CONTENT_SEPARATOR + content;

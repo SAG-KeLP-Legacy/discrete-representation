@@ -15,33 +15,59 @@
 
 package it.uniroma2.sag.kelp.data.representation.structure;
 
+import com.fasterxml.jackson.annotation.JsonTypeName;
+
 /**
- * This class represent the atomic element of a discrete structure. It has been
- * designed to represent the "content" of each basic element of a structure.
+ * It represent a StuctureElement without type. It is the default element.
  * 
  * @author Simone Filice, Croce Danilo
  * 
  */
-public interface StructureElement {
+@JsonTypeName("NOTYPE")
+public class UntypedStructureElement implements StructureElement {
 
 	/**
-	 * Initializes a StructureElement using its textual description provided in
-	 * <code>structureElementDescription</code>
-	 * 
-	 * @param structureElementDescription
-	 *            the textual description of the structureElement to be
-	 *            initialized
+	 * The label of the element
 	 */
+	private String label;
+
+	public UntypedStructureElement() {
+
+	}
+
+	/**
+	 * @param label
+	 *            The label of the element
+	 */
+	public UntypedStructureElement(String label) {
+		this.label = label;
+	}
+
+	/**
+	 * @return The label of the element
+	 */
+	public String getLabel() {
+		return label;
+	}
+
+	@Override
+	public String getTextFromData() {
+		return label;
+	}
+
+	@Override
 	public void setDataFromText(String structureElementDescription)
-			throws Exception;
+			throws Exception {
+		this.label = structureElementDescription;
+
+	}
 
 	/**
-	 * Returns a textual representation of the data stored in this
-	 * structureElement
-	 * 
-	 * @return a textual representation of the data stored in this
-	 *         structureElement
+	 * @param label
+	 *            The label of the element
 	 */
-	public String getTextFromData();
+	public void setLabel(String label) {
+		this.label = label;
+	}
 
 }

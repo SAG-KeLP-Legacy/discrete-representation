@@ -17,43 +17,57 @@ package it.uniroma2.sag.kelp.data.representation.structure;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
+/**
+ * It represent a StuctureElement that contains the syntactic informations, i.e.
+ * the <code>syntacticRelation</code>
+ * 
+ * @author Simone Filice, Croce Danilo
+ * 
+ */
 @JsonTypeName("SYNT")
-public class SyntacticStructureElement implements StructureElement{
+public class SyntacticStructureElement implements StructureElement {
 
+	/**
+	 * The syntactic relation
+	 */
 	private String syntacticRelation;
 
+	public SyntacticStructureElement() {
 
-	public SyntacticStructureElement(){
-		
 	}
-	
-	public SyntacticStructureElement(String syntacticRelation){
+
+	/**
+	 * @param syntacticRelation
+	 *            The syntactic relation
+	 */
+	public SyntacticStructureElement(String syntacticRelation) {
 		this.syntacticRelation = syntacticRelation;
 	}
-	
+
 	/**
-	 * @return the syntacticRelation
+	 * @return the The syntactic relation
 	 */
 	public String getSyntacticRelation() {
 		return syntacticRelation;
 	}
 
-	/**
-	 * @param syntacticRelation the syntacticRelation to set
-	 */
-	public void setSyntacticRelation(String syntacticRelation) {
-		this.syntacticRelation = syntacticRelation;
+	@Override
+	public String getTextFromData() {
+		return syntacticRelation;
 	}
-	
+
 	@Override
 	public void setDataFromText(String structureElementDescription)
 			throws Exception {
 		this.syntacticRelation = structureElementDescription;
-		
+
 	}
 
-	@Override
-	public String getTextFromData() {
-		return syntacticRelation;
+	/**
+	 * @param syntacticRelation
+	 *            The syntactic relation to set
+	 */
+	public void setSyntacticRelation(String syntacticRelation) {
+		this.syntacticRelation = syntacticRelation;
 	}
 }

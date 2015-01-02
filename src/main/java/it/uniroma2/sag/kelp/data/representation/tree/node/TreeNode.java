@@ -15,29 +15,28 @@
 
 package it.uniroma2.sag.kelp.data.representation.tree.node;
 
-import it.uniroma2.sag.kelp.data.example.Example;
+import it.uniroma2.sag.kelp.data.representation.structure.StructureElement;
+import it.uniroma2.sag.kelp.data.representation.structure.StructureElementFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * A TreeNode represents a generic node in a TreeRepresentation
  * 
- * @author Danilo Croce, Giuseppe Castellucci
+ * @author Danilo Croce, Giuseppe Castellucci, Simone Filice
  * 
  */
 public class TreeNode implements Serializable {
 
-	private static final long serialVersionUID = 8192423989557300729L;
-
-	/**
-	 * The node label
-	 */
-	protected String label;
-
+	private static final long serialVersionUID = 3112378816044567678L;
+	
+	
+	
+	private StructureElement content;
+	
 	/**
 	 * The node identifier, used in the tree kernel implementations to access
 	 * caches. It MUST be unique for each node in the tree.
@@ -55,34 +54,20 @@ public class TreeNode implements Serializable {
 	private ArrayList<TreeNode> children;
 
 	/**
-	 * A string encoding the node production, e.g. in (S(NP)(VP) the production
+	 * A string encoding the node production, e.g. in (S(NP)(VP)) the production
 	 * string is S->NP,VP
 	 */
 	private String production;
-
-	/**
-	 * Additional representation that can be attached to a node. For example a
-	 * node can be eniched with a vector.
-	 */
-	private Example additionalRepresentation;
-
-	/**
-	 * True if the additional representation has been set
-	 */
-	private boolean isAdditionalRepresentationSet;
-
-	public TreeNode(int id, String label, TreeNode father) {
+	
+	public TreeNode(int id, StructureElement content, TreeNode father) {
 		this.id = id;
-		this.label = label;
+		this.content = content;
 		this.children = new ArrayList<TreeNode>();
 		this.father = father;
 	}
-
-	/**
-	 * @return The additional representation
-	 */
-	public Example getAdditionalRepresentation() {
-		return additionalRepresentation;
+	
+	public StructureElement getContent(){
+		return this.content;
 	}
 
 	/**
@@ -121,11 +106,7 @@ public class TreeNode implements Serializable {
 	public Integer getId() {
 		return id;
 	}
-
-	public String getLabel() {
-		return label;
-	}
-
+	
 	/**
 	 * Get the max id within all node under the target node
 	 * 
@@ -150,7 +131,7 @@ public class TreeNode implements Serializable {
 
 	/**
 	 * Get the node production in the form of string. It is a string encoding
-	 * the node production, e.g. in (S(NP)(VP) the production string is S->NP,VP
+	 * the node production, e.g. in (S(NP)(VP)) the production string is S->NP,VP
 	 * 
 	 * @return the node production as a string
 	 */
@@ -158,18 +139,13 @@ public class TreeNode implements Serializable {
 		if (production != null)
 			return production;
 
-		production = getLabel() + "->";
+		production = this.content.getTextFromData() + "->";
 
 		for (TreeNode child : children) {
-			production += child.getLabel() + " ";
+			production += child.getContent().getTextFromData() + " ";
 		}
 
 		return production;
-	}
-
-	@JsonIgnore
-	public String getType() {
-		return "NO";
 	}
 
 	public boolean hasChildren() {
@@ -178,33 +154,11 @@ public class TreeNode implements Serializable {
 		return false;
 	}
 
-	public boolean isAdditionalRepresentationSet() {
-		return isAdditionalRepresentationSet;
-	}
-
-	/**
-	 * @param additionalRepresentation
-	 *            the additional representation
-	 */
-	public void setAdditionalRepresentation(Example additionalRepresentation) {
-		this.additionalRepresentation = additionalRepresentation;
-		this.isAdditionalRepresentationSet = true;
-	}
-
-	public void setAdditionalRepresentationSet(
-			boolean isAdditionalRepresentationSet) {
-		this.isAdditionalRepresentationSet = isAdditionalRepresentationSet;
-	}
-
-	public void setLabel(String label) {
-		this.label = label;
-	}
-
 	@Override
 	public String toString() {
 		StringBuilder b = new StringBuilder();
 		b.append("(");
-		b.append(getType() + "::" + getLabel());
+		b.append(StructureElementFactory.getTextualRepresentation(content));
 		if (children != null && children.size() > 0) {
 			for (TreeNode node : children) {
 				b.append(node.toString());
@@ -213,5 +167,5 @@ public class TreeNode implements Serializable {
 		b.append(")");
 		return b.toString().trim();
 	}
-
+	
 }

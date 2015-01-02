@@ -17,44 +17,58 @@ package it.uniroma2.sag.kelp.data.representation.structure;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
+/**
+ * It represent a StuctureElement that contains Part-of-Speech , i.e. the
+ * <code>pos</code>
+ * 
+ * @author Simone Filice, Croce Danilo
+ * 
+ */
 @JsonTypeName("POS")
-public class PosStructureElement implements StructureElement{
+public class PosStructureElement implements StructureElement {
 
+	/**
+	 * The Part-of-Speech
+	 */
 	private String pos;
 
+	public PosStructureElement() {
 
-	public PosStructureElement(){
-		
 	}
-	
-	public PosStructureElement(String pos){
+
+	/**
+	 * @param pos
+	 *            The Part-of-Speech
+	 */
+	public PosStructureElement(String pos) {
 		this.pos = pos;
 	}
-	
+
 	/**
-	 * @return the pos
+	 * @return the pos The Part-of-Speech
 	 */
 	public String getPos() {
 		return pos;
 	}
 
-	/**
-	 * @param pos the pos to set
-	 */
-	public void setPos(String pos) {
-		this.pos = pos;
+	@Override
+	public String getTextFromData() {
+		return pos;
 	}
-	
+
 	@Override
 	public void setDataFromText(String structureElementDescription)
 			throws Exception {
 		this.pos = structureElementDescription;
-		
+
 	}
 
-	@Override
-	public String getTextFromData() {
-		return pos;
+	/**
+	 * @param pos
+	 *            The Part-of-Speech
+	 */
+	public void setPos(String pos) {
+		this.pos = pos;
 	}
 
 }

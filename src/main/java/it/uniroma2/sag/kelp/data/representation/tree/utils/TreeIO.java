@@ -15,6 +15,8 @@
 
 package it.uniroma2.sag.kelp.data.representation.tree.utils;
 
+import it.uniroma2.sag.kelp.data.representation.structure.StructureElement;
+import it.uniroma2.sag.kelp.data.representation.structure.StructureElementFactory;
 import it.uniroma2.sag.kelp.data.representation.tree.TreeRepresentation;
 import it.uniroma2.sag.kelp.data.representation.tree.node.TreeNode;
 
@@ -83,7 +85,12 @@ public class TreeIO {
 			nodeStr = inputString.substring(0, inputString.indexOf(LRB));
 		}
 
-		TreeNode node = parseNode(nodeCounter, nodeStr, father);
+		TreeNode node;
+		try {
+			node = parseNode(nodeCounter, nodeStr, father);
+		} catch (InstantiationException e) {
+			throw new TreeIOException(e.getMessage());
+		}
 		// if the node label contains a "::", it contains also a suffix
 		// TODO
 		// if (nodeStr.contains("::")) {
@@ -131,8 +138,9 @@ public class TreeIO {
 	}
 
 	protected TreeNode parseNode(int nodeCounter, String nodeStr,
-			TreeNode father) {
-		return new TreeNode(nodeCounter, nodeStr, father);
+			TreeNode father) throws InstantiationException {
+		StructureElement content = StructureElementFactory.getInstance().parseStructureElement(nodeStr);
+		return new TreeNode(nodeCounter, content, father);
 	}
 
 	/**
