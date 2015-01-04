@@ -32,13 +32,13 @@ import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 public interface StructureElementSimilarityI {
 
 	/**
-	 * This function measure the similarity between two nodes
+	 * This function measure the similarity between structure elements
 	 * 
-	 * @param nx
-	 *            the first node
-	 * @param nz
-	 *            the second node
-	 * @return the similarity between two nodes
+	 * @param sx
+	 *            the first structure element
+	 * @param sd
+	 *            the second structure element
+	 * @return the similarity between two structure elements
 	 */
-	public float sim(StructureElement sx, StructureElement sz);
+	public float sim(StructureElement sx, StructureElement sd);
 }

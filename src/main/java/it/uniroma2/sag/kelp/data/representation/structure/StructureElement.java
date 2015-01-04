@@ -19,7 +19,7 @@ package it.uniroma2.sag.kelp.data.representation.structure;
  * This class represent the atomic element of a discrete structure. It has been
  * designed to represent the "content" of each basic element of a structure.
  * 
- * @author Simone Filice, Croce Danilo
+ * @author Simone Filice, Danilo Croce
  * 
  */
 public interface StructureElement {

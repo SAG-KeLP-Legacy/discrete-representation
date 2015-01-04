@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * It represent a StuctureElement that contains the syntactic informations, i.e.
  * the <code>syntacticRelation</code>
  * 
- * @author Simone Filice, Croce Danilo
+ * @author Simone Filice, Danilo Croce
  * 
  */
 @JsonTypeName("SYNT")

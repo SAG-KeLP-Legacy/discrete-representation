@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * that is used to determine the new element. The input String will be in the
  * form <code>NEW_TYPE##struct_content</code>
  * 
- * @author Simone Filice
+ * @author Simone Filice, Danilo Croce
  */
 public class StructureElementFactory {
 

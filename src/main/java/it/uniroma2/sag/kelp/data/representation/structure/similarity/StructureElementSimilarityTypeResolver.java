@@ -69,7 +69,7 @@ public class StructureElementSimilarityTypeResolver implements TypeIdResolver {
 			idToClassMapping.put(abbreviation, clazz);
 			classToIdMapping.put(clazz, abbreviation);
 		}
-		logger.info("Representation Implementations: {}", idToClassMapping);
+		logger.info("StructureElementSimilarity Implementations: {}", idToClassMapping);
 	}
 
 	private JavaType mBaseType;

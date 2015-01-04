@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * represent a word (the <code>lemma</code>) and a Part-of-Speech (the
  * <code>pos</code>).
  * 
- * @author Simone Filice, Croce Danilo
+ * @author Simone Filice, Danilo Croce 
  * 
  */
 @JsonTypeName("LEX")

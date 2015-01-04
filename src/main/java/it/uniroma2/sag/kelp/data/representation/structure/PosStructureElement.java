@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * It represent a StuctureElement that contains Part-of-Speech , i.e. the
  * <code>pos</code>
  * 
- * @author Simone Filice, Croce Danilo
+ * @author Simone Filice, Danilo Croce
  * 
  */
 @JsonTypeName("POS")

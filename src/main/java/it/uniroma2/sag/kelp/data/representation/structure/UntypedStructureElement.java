@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 /**
  * It represent a StuctureElement without type. It is the default element.
  * 
- * @author Simone Filice, Croce Danilo
+ * @author Simone Filice, Danilo Croce
  * 
  */
 @JsonTypeName("NOTYPE")
