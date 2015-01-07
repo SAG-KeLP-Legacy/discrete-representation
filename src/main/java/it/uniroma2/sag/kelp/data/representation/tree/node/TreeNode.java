@@ -138,13 +138,15 @@ public class TreeNode implements Serializable {
 	public String getProduction() {
 		if (production != null)
 			return production;
-
-		production = this.content.getTextFromData() + "->";
+		
+		//production = this.content.getTextFromData() + "->";
+		production = StructureElementFactory.getTextualRepresentation(this.content) + "->";
 
 		for (TreeNode child : children) {
-			production += child.getContent().getTextFromData() + " ";
+            //production += child.getContent().getTextFromData() + " ";
+			production += StructureElementFactory.getTextualRepresentation(child.getContent()) + " ";
 		}
-
+		
 		return production;
 	}
 
