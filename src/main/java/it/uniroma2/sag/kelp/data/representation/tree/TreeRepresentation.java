@@ -124,6 +124,7 @@ public class TreeRepresentation implements Representation {
 	 * 
 	 * @return the max id value
 	 */
+	@JsonIgnore
 	public Integer getMaxId() {
 		return root.getMaxId();
 	}
