@@ -31,6 +31,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("LEX")
 public class LexicalStructureElement implements StructureElement {
 
+	private static final long serialVersionUID = -2474140537227516080L;
+
 	public static final String POS_LEMMA_SEPARATOR = "::";
 
 	/**

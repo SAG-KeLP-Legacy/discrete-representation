@@ -28,6 +28,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class SyntacticStructureElement implements StructureElement {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1890367479304586367L;
+	/**
 	 * The syntactic relation
 	 */
 	private String syntacticRelation;

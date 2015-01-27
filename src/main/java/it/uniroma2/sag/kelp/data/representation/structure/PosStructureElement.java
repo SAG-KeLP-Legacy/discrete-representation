@@ -28,6 +28,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class PosStructureElement implements StructureElement {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1231706888018397734L;
+	/**
 	 * The Part-of-Speech
 	 */
 	private String pos;

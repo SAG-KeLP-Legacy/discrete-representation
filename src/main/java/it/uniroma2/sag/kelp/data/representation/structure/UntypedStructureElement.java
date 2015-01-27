@@ -27,6 +27,10 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class UntypedStructureElement implements StructureElement {
 
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4121141061396740459L;
+	/**
 	 * The label of the element
 	 */
 	private String label;
