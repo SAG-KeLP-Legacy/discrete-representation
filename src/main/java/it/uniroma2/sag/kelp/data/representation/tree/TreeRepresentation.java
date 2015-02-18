@@ -35,7 +35,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * Tree Representation used for example to represent the syntactic tree of a
  * sentence. It can be exploited by convolution kernels
  * 
- * @author Danilo Croce, Giuseppe Castellucci
+ * @author Danilo Croce, Giuseppe Castellucci, Simone Filice
  */
 @JsonTypeName("T")
 public class TreeRepresentation implements Representation {
