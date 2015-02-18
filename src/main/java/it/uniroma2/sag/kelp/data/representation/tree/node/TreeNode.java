@@ -32,11 +32,11 @@ import java.util.List;
 public class TreeNode implements Serializable {
 
 	private static final long serialVersionUID = 3112378816044567678L;
-	
-	
-	
+
+
+
 	private StructureElement content;
-	
+
 	/**
 	 * The node identifier, used in the tree kernel implementations to access
 	 * caches. It MUST be unique for each node in the tree.
@@ -58,14 +58,14 @@ public class TreeNode implements Serializable {
 	 * string is S->NP,VP
 	 */
 	private String production;
-	
+
 	public TreeNode(int id, StructureElement content, TreeNode father) {
 		this.id = id;
 		this.content = content;
 		this.children = new ArrayList<TreeNode>();
 		this.father = father;
 	}
-	
+
 	public StructureElement getContent(){
 		return this.content;
 	}
@@ -106,7 +106,7 @@ public class TreeNode implements Serializable {
 	public Integer getId() {
 		return id;
 	}
-	
+
 	/**
 	 * Get the max id within all node under the target node
 	 * 
@@ -138,15 +138,15 @@ public class TreeNode implements Serializable {
 	public String getProduction() {
 		if (production != null)
 			return production;
-		
+
 		//production = this.content.getTextFromData() + "->";
 		production = StructureElementFactory.getTextualRepresentation(this.content) + "->";
 
 		for (TreeNode child : children) {
-            //production += child.getContent().getTextFromData() + " ";
+			//production += child.getContent().getTextFromData() + " ";
 			production += StructureElementFactory.getTextualRepresentation(child.getContent()) + " ";
 		}
-		
+
 		return production;
 	}
 
@@ -169,5 +169,46 @@ public class TreeNode implements Serializable {
 		b.append(")");
 		return b.toString().trim();
 	}
-	
+
+	/**
+	 * Returns the <code>generation</code> generation ancestor of this node 
+	 * (for instance 1-generation ancestor is the father, 2-generation ancestor
+	 * is the grandfather, etc)
+	 * 
+	 * @param generation the number of generations
+	 * @return the <code>generation</code> generation ancestor of this node 
+	 */
+	public TreeNode getAncestor(int generation){
+		TreeNode ancestor = this;
+		for(int i=0; i<generation; i++){
+			if(ancestor.getFather()==null){
+				return null;
+			}
+			ancestor=ancestor.getFather();
+		}
+		return ancestor;
+	}
+
+	/**
+	 * Returns all the <code>generation</code> generations descendants of this node
+	 * (for instance 1-generation descendants are the children, the 2-generations 
+	 * descendants are the grandchildren, etc)
+	 * 
+	 * @param generation the number of generations
+	 * @return all the <code>generation</code> generations descendants of this node
+	 */
+	public List<TreeNode> getDescendants(int generation){
+
+		if(generation<=1){
+			return this.children;
+		}
+		ArrayList<TreeNode> descendands = new ArrayList<TreeNode>();
+		if(this.hasChildren()){
+			for(TreeNode child : this.getChildren()){
+				descendands.addAll(child.getDescendants(generation-1));
+			}
+		}
+
+		return descendands;
+	}
 }

@@ -16,11 +16,14 @@
 package it.uniroma2.sag.kelp.data.representation.tree;
 
 import it.uniroma2.sag.kelp.data.representation.Representation;
+import it.uniroma2.sag.kelp.data.representation.structure.StructureElement;
 import it.uniroma2.sag.kelp.data.representation.tree.node.TreeNode;
 import it.uniroma2.sag.kelp.data.representation.tree.utils.TreeIO;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.lang3.SerializationUtils;
@@ -139,7 +142,7 @@ public class TreeRepresentation implements Representation {
 			orderedNodeSetByLabel = root.getAllNodes();
 
 			Collections
-					.sort(orderedNodeSetByLabel, AlphabeticalLabelComparator);
+			.sort(orderedNodeSetByLabel, AlphabeticalLabelComparator);
 		}
 		return orderedNodeSetByLabel;
 	}
@@ -181,7 +184,7 @@ public class TreeRepresentation implements Representation {
 	public void setDataFromText(String representationDescription)
 			throws Exception {
 		TreeRepresentation i = new TreeIO()
-				.parseCharniakSentence(representationDescription);
+		.parseCharniakSentence(representationDescription);
 		this.root = i.root;
 		this.orderedNodeSetByLabel = i.orderedNodeSetByLabel;
 		this.orderedNodeSetByProduction = i.orderedNodeSetByProduction;
@@ -191,4 +194,63 @@ public class TreeRepresentation implements Representation {
 	public String toString() {
 		return root.toString();
 	}
+
+	/**
+	 * Returns all the nodes whose content has type <code>clazz</code>
+	 * 
+	 * @param clazz the type of the content 
+	 * @return all the nodes whose content has type <code>clazz</code>
+	 */
+	public List<TreeNode> getNodesWithContentType(Class<? extends StructureElement> clazz){
+
+		ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
+		for(TreeNode node : this.getOrderedNodeSetByLabel()){
+			if(node.getContent().getClass().equals(clazz)){
+				nodes.add(node);
+			}
+		}
+		return nodes;
+	}
+
+	
+	/**
+	 * Returns all the leaves, i.e. the nodes without children
+	 * 
+	 * @return the leaves of this tree
+	 */
+	public List<TreeNode> getLeaves(){
+
+		ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
+		for(TreeNode node : this.getOrderedNodeSetByLabel()){
+			if(!node.hasChildren()){
+				nodes.add(node);
+			}
+		}
+		return nodes;
+	}
+	
+	/**
+	 * Returns all the nodes that have at least a <code>generationHops</code>-generation descendant being a leaf 
+	 * (for instance using <code>generationHops</code>=1 will produce a list of all the fathers of the leaves,
+	 * <code>generationHops</code>=2 will produce a list of all the grandfathers of the leaves, etc)
+	 * 
+	 * @param generationHops the number of generations from the leaves
+	 * @return all the nodes that have at least a <code>generationHops</code>-generation descendant being a leaf 
+	 */
+	public List<TreeNode> getPreLeafNodes(int generationHops){
+		ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
+		List<TreeNode> leaves = this.getLeaves();
+		HashSet<TreeNode> uniqueNodes = new HashSet<TreeNode>();
+		for(TreeNode leaf : leaves){
+			TreeNode ancestor = leaf.getAncestor(generationHops);
+			if(ancestor==null){
+				continue;
+			}
+			if(uniqueNodes.add(ancestor)){
+				nodes.add(ancestor);
+			}
+		}
+ 		return nodes;
+	}
+
 }
