@@ -205,6 +205,7 @@ public class TreeRepresentation implements Representation {
 	 * @param clazz the type of the content 
 	 * @return all the nodes whose content has type <code>clazz</code>
 	 */
+	@JsonIgnore
 	public List<TreeNode> getNodesWithContentType(Class<? extends StructureElement> clazz){
 
 		ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
@@ -222,6 +223,7 @@ public class TreeRepresentation implements Representation {
 	 * 
 	 * @return the leaves of this tree
 	 */
+	@JsonIgnore
 	public List<TreeNode> getLeaves(){
 
 		ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
@@ -241,6 +243,7 @@ public class TreeRepresentation implements Representation {
 	 * @param generationHops the number of generations from the leaves
 	 * @return all the nodes that have at least a <code>generationHops</code>-generation descendant being a leaf 
 	 */
+	@JsonIgnore
 	public List<TreeNode> getPreLeafNodes(int generationHops){
 		ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
 		List<TreeNode> leaves = this.getLeaves();
