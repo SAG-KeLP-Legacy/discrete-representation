@@ -194,6 +194,10 @@ public class TreeRepresentation implements Representation {
 	public String toString() {
 		return root.toString();
 	}
+	
+	public String getTextualEnrichedTree(){
+		return root.getTextualEnrichedFormat();
+	}
 
 	/**
 	 * Returns all the nodes whose content has type <code>clazz</code>

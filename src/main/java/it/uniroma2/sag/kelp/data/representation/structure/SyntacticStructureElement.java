@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * 
  */
 @JsonTypeName("SYNT")
-public class SyntacticStructureElement implements StructureElement {
+public class SyntacticStructureElement extends StructureElement {
 
 	/**
 	 * 
@@ -74,4 +74,5 @@ public class SyntacticStructureElement implements StructureElement {
 	public void setSyntacticRelation(String syntacticRelation) {
 		this.syntacticRelation = syntacticRelation;
 	}
+
 }

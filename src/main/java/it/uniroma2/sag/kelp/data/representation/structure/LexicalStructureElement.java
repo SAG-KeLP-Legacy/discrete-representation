@@ -15,8 +15,6 @@
 
 package it.uniroma2.sag.kelp.data.representation.structure;
 
-import it.uniroma2.sag.kelp.data.example.Example;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
@@ -29,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * 
  */
 @JsonTypeName("LEX")
-public class LexicalStructureElement implements StructureElement {
+public class LexicalStructureElement extends StructureElement {
 
 	private static final long serialVersionUID = -2474140537227516080L;
 
@@ -44,17 +42,6 @@ public class LexicalStructureElement implements StructureElement {
 	 * The Part-of-Speech of the represented word
 	 */
 	private String pos;
-
-	/**
-	 * Additional representation that can be attached to a node. For example a
-	 * node can be eniched with a vector.
-	 */
-	private Example additionalRepresentation;
-
-	/**
-	 * True if the additional representation has been set
-	 */
-	private boolean isAdditionalRepresentationSet;
 
 	@JsonIgnore
 	private String textFromData;
@@ -75,12 +62,12 @@ public class LexicalStructureElement implements StructureElement {
 		updateTextFromData();
 	}
 
-	/**
-	 * @return The additional representation
-	 */
-	public Example getAdditionalRepresentation() {
-		return additionalRepresentation;
-	}
+//	/**
+//	 * @return The additional representation
+//	 */
+//	public Example getAdditionalRepresentation() {
+//		return additionalRepresentation;
+//	}
 
 	/**
 	 * @return The lemma of the represented word
@@ -102,33 +89,6 @@ public class LexicalStructureElement implements StructureElement {
 			updateTextFromData();
 		}
 		return textFromData;
-	}
-
-	/**
-	 * @return <code>true</code> if the <code>additionalRepresentation</code>
-	 *         has been set. <code>false</code> otherwise
-	 */
-	public boolean isAdditionalRepresentationSet() {
-		return isAdditionalRepresentationSet;
-	}
-
-	/**
-	 * @param additionalRepresentation
-	 *            the additional representation
-	 */
-	public void setAdditionalRepresentation(Example additionalRepresentation) {
-		this.additionalRepresentation = additionalRepresentation;
-		this.isAdditionalRepresentationSet = true;
-	}
-
-	/**
-	 * @param isAdditionalRepresentationSet
-	 *            <code>true</code> if the <code>additionalRepresentation</code>
-	 *            has been set. <code>false</code> otherwise
-	 */
-	public void setAdditionalRepresentationSet(
-			boolean isAdditionalRepresentationSet) {
-		this.isAdditionalRepresentationSet = isAdditionalRepresentationSet;
 	}
 
 	@Override

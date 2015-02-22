@@ -149,6 +149,18 @@ public class TreeNode implements Serializable {
 
 		return production;
 	}
+	
+	/**
+	 * Notifies a modification in the label of the node, that
+	 * must reflect in an update of the production of this node and
+	 * in the one of its father (if it has)
+	 */
+	public void updateProduction(){
+		this.production = null;
+		if(this.father!=null){
+			this.father.production=null;
+		}
+	}
 
 	public boolean hasChildren() {
 		if (children != null && children.size() > 0)
@@ -170,6 +182,19 @@ public class TreeNode implements Serializable {
 		return b.toString().trim();
 	}
 
+	public String getTextualEnrichedFormat() {
+		StringBuilder b = new StringBuilder();
+		b.append("(");
+		b.append(content.getTextFromDataWithAdditionalInfo());
+		if (children != null && children.size() > 0) {
+			for (TreeNode node : children) {
+				b.append(node.getTextualEnrichedFormat());
+			}
+		}
+		b.append(")");
+		return b.toString().trim();
+	}
+	
 	/**
 	 * Returns the <code>generation</code> generation ancestor of this node 
 	 * (for instance 1-generation ancestor is the father, 2-generation ancestor

@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * 
  */
 @JsonTypeName("POS")
-public class PosStructureElement implements StructureElement {
+public class PosStructureElement extends StructureElement {
 
 	/**
 	 * 

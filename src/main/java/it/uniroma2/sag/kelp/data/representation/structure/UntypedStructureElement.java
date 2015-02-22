@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  * 
  */
 @JsonTypeName("NOTYPE")
-public class UntypedStructureElement implements StructureElement {
+public class UntypedStructureElement extends StructureElement {
 
 	/**
 	 * 
@@ -36,7 +36,7 @@ public class UntypedStructureElement implements StructureElement {
 	private String label;
 
 	public UntypedStructureElement() {
-
+		
 	}
 
 	/**
@@ -73,5 +73,6 @@ public class UntypedStructureElement implements StructureElement {
 	public void setLabel(String label) {
 		this.label = label;
 	}
+
 
 }

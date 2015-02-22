@@ -16,6 +16,8 @@
 package it.uniroma2.sag.kelp.data.representation.structure;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 /**
  * This class represent the atomic element of a discrete structure. It has been
@@ -24,7 +26,14 @@ import java.io.Serializable;
  * @author Simone Filice, Danilo Croce
  * 
  */
-public interface StructureElement extends Serializable {
+public abstract class StructureElement implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4570173314652208985L;
+
+	protected HashMap<String, Object> additionalInformation = new HashMap<String, Object>();
 
 	/**
 	 * Initializes a StructureElement using its textual description provided in
@@ -34,7 +43,7 @@ public interface StructureElement extends Serializable {
 	 *            the textual description of the structureElement to be
 	 *            initialized
 	 */
-	public void setDataFromText(String structureElementDescription)
+	public abstract void setDataFromText(String structureElementDescription)
 			throws Exception;
 
 	/**
@@ -44,6 +53,57 @@ public interface StructureElement extends Serializable {
 	 * @return a textual representation of the data stored in this
 	 *         structureElement
 	 */
-	public String getTextFromData();
+	public abstract String getTextFromData();
+	
+	/**
+	 * Adds an additional information identified by <code>infoName</code>
+	 * 
+	 * @param infoName the identifier of the additional information
+	 * @param infoContent the additional information
+	 */
+	public void addAdditionalInformation(String infoName, Object infoContent){
+		this.additionalInformation.put(infoName, infoContent);
+	}
+	
+	/**
+	 * Returns the additional information identified by <code>infoName</code>
+	 * 
+	 * @param infoName the identifier of the additional information
+	 * @return the additional information identified by <code>infoName</code>;
+	 * <code>null</node> if that information is not contained
+	 */
+	public Object getAdditinalInformation(String infoName){
+		return this.additionalInformation.get(infoName);
+	}
+	
+	/**
+	 * Verifies whether this element contains the additional information
+	 * identified by <code>infoName</code>
+	 * 
+	 * @param infoName the identifier of the additional information
+	 * @return <code>true</code> if this element contains the additional information
+	 * identified by <code>infoName</code>;
+	 * <code>false</code> otherwise
+	 */
+	public boolean containsAdditionalInfo(String infoName){
+		return this.additionalInformation.containsKey(infoName);
+	}
+	
+	/**
+	 * Returns the textual format of the content, concatenated with all the 
+	 * additional information added to this element
+	 * 
+	 * @return the textual format of the content, concatenated with all the 
+	 * additional information added to this element
+	 */
+	public String getTextFromDataWithAdditionalInfo(){
+		String output = this.getTextFromData();
+		for(Entry<String, Object> entry: this.additionalInformation.entrySet()){
+			output+=entry.getKey() + entry.getValue().toString();
+		}
+		return output;
+	}
+	
 
+	
 }
