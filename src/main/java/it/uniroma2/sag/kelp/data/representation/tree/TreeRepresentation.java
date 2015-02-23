@@ -195,6 +195,7 @@ public class TreeRepresentation implements Representation {
 		return root.toString();
 	}
 	
+	@JsonIgnore
 	public String getTextualEnrichedTree(){
 		return root.getTextualEnrichedFormat();
 	}
