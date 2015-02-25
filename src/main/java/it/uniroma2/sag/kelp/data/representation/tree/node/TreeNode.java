@@ -236,4 +236,21 @@ public class TreeNode implements Serializable {
 
 		return descendands;
 	}
+	
+	/**
+	 * Returns the height of the tree rooted by this node (i.e. 
+	 * the number of edges on the longest downward path between that node and a leaf)
+	 * 
+	 * @return the height of this node
+	 */
+	public int getHeight(){
+		
+		int max = 0;
+		for(TreeNode child : children){
+			if(child.getHeight()+1 > max){
+				max = child.getHeight()+1;
+			}
+		}
+		return max;
+	}
 }
