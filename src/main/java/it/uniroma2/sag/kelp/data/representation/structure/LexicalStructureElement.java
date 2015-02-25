@@ -85,9 +85,9 @@ public class LexicalStructureElement extends StructureElement {
 
 	@Override
 	public String getTextFromData() {
-		if (textFromData == null) {
-			updateTextFromData();
-		}
+//		if (textFromData == null) {
+//			updateTextFromData();
+//		}
 		return textFromData;
 	}
 
@@ -107,6 +107,7 @@ public class LexicalStructureElement extends StructureElement {
 			this.pos = structureElementDescription.substring(separator
 					+ POS_LEMMA_SEPARATOR.length());
 		}
+		updateTextFromData();
 	}
 
 	/**
