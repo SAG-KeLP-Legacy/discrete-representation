@@ -113,6 +113,11 @@ public class TreeRepresentation implements Representation {
 		return false;
 	}
 
+	public void updateOrderedNodeLists(){
+		this.orderedNodeSetByLabel = null;
+		this.orderedNodeSetByProduction = null;
+	}
+	
 	/**
 	 * 
 	 * @return the complete set of nodes

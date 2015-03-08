@@ -89,6 +89,10 @@ public abstract class StructureElement implements Serializable {
 		return this.additionalInformation.containsKey(infoName);
 	}
 	
+	public void removeAdditionalInformation(String infoName){
+		this.additionalInformation.remove(infoName);
+	}
+	
 	/**
 	 * Returns the textual format of the content, concatenated with all the 
 	 * additional information added to this element
@@ -98,10 +102,15 @@ public abstract class StructureElement implements Serializable {
 	 */
 	public String getTextFromDataWithAdditionalInfo(){
 		String output = this.getTextFromData();
+		if(this.additionalInformation.size()==0){
+			return output;
+		}
+		
+		output+= "{";
 		for(Entry<String, Object> entry: this.additionalInformation.entrySet()){
 			output+=entry.getKey() + entry.getValue().toString();
 		}
-		return output;
+		return output+"}";
 	}
 	
 
