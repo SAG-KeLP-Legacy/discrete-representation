@@ -89,8 +89,8 @@ public abstract class StructureElement implements Serializable {
 		return this.additionalInformation.containsKey(infoName);
 	}
 	
-	public void removeAdditionalInformation(String infoName){
-		this.additionalInformation.remove(infoName);
+	public Object removeAdditionalInformation(String infoName){
+		return this.additionalInformation.remove(infoName);
 	}
 	
 	/**
