@@ -51,13 +51,19 @@ public class TreeRepresentation implements Representation {
 	 * The complete set of tree nodes ordered alphabetically by label. Used by
 	 * several Tree Kernel functions.
 	 */
-	protected List<TreeNode> orderedNodeSetByLabel;
+	protected List<TreeNode> orderedNodeSetByLabel = null;
 
 	/**
 	 * The complete set of tree nodes ordered alphabetically by production
 	 * string. Used by several Tree Kernel functions.
 	 */
-	protected List<TreeNode> orderedNodeSetByProduction;
+	protected List<TreeNode> orderedNodeSetByProduction = null;
+	
+	/**
+	 * The of non terminal tree nodes ordered alphabetically by production
+	 * string. Used by several Tree Kernel functions.
+	 */
+	protected List<TreeNode> orderedNodeSetByProductionIgnoringLeaves = null;
 
 	/**
 	 * Compare tree nodes by Label
@@ -76,6 +82,15 @@ public class TreeRepresentation implements Representation {
 			return e1.getProduction().compareTo(e2.getProduction());
 		}
 	};
+	
+//	/**
+//	 * Compare tree nodes by Production ignoring the leaves
+//	 */
+//	private static final Comparator<TreeNode> AlphabeticalProductionComparatorIgnoringLeaves = new Comparator<TreeNode>() {
+//		public int compare(TreeNode e1, TreeNode e2) {
+//			return e1.getProductionIgnoringLeaves().compareTo(e2.getProductionIgnoringLeaves());
+//		}
+//	};
 
 	public TreeRepresentation() {
 
@@ -89,8 +104,6 @@ public class TreeRepresentation implements Representation {
 	 */
 	public TreeRepresentation(TreeNode root) {
 		this.root = root;
-		this.getOrderedNodeSetByLabel();
-		this.getOrderedNodeSetByProduction();
 	}
 
 	@Override
@@ -166,6 +179,29 @@ public class TreeRepresentation implements Representation {
 		}
 		return orderedNodeSetByProduction;
 	}
+	
+	/**
+	 * @return the complete set of nodes ordered alphabetically by production
+	 *         string ignoring leaves
+	 */
+	@JsonIgnore
+	public List<TreeNode> getOrderedNodeSetByProductionIgnoringLeaves() {
+		if (this.orderedNodeSetByProductionIgnoringLeaves == null) {
+			
+			orderedNodeSetByProductionIgnoringLeaves = new ArrayList<TreeNode>();
+			for(TreeNode node : root.getAllNodes()){
+				if(node.hasChildren()){
+					orderedNodeSetByProductionIgnoringLeaves.add(node);
+				}
+				
+			}
+			Collections.sort(orderedNodeSetByProductionIgnoringLeaves,
+					AlphabeticalProductionComparator);
+			//Collections.sort(orderedNodeSetByProductionIgnoringLeaves,
+					//AlphabeticalProductionComparatorIgnoringLeaves);
+		}
+		return orderedNodeSetByProductionIgnoringLeaves;
+	}
 
 	/**
 	 * @return the tree root
@@ -188,11 +224,8 @@ public class TreeRepresentation implements Representation {
 	@Override
 	public void setDataFromText(String representationDescription)
 			throws Exception {
-		TreeRepresentation i = new TreeIO()
+		this.root = new TreeIO()
 		.parseCharniakSentence(representationDescription);
-		this.root = i.root;
-		this.orderedNodeSetByLabel = i.orderedNodeSetByLabel;
-		this.orderedNodeSetByProduction = i.orderedNodeSetByProduction;
 	}
 
 	@Override
