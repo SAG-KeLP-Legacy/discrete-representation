@@ -17,7 +17,6 @@ package it.uniroma2.sag.kelp.data.representation.tree.utils;
 
 import it.uniroma2.sag.kelp.data.representation.structure.StructureElement;
 import it.uniroma2.sag.kelp.data.representation.structure.StructureElementFactory;
-import it.uniroma2.sag.kelp.data.representation.tree.TreeRepresentation;
 import it.uniroma2.sag.kelp.data.representation.tree.node.TreeNode;
 
 /**
@@ -39,28 +38,28 @@ public class TreeIO {
 	public static final char RRB = ')';
 
 	/**
-	 * This method allows to read a tree in the form (S(NP)(VP)) and returns the
-	 * corresponding Tree Representation
+	 * This method allows to read a tree in the form (S(NP)(VP)) and returns the TreeNode
+	 * corresponding to the root of the tree
 	 * 
 	 * @param sentence
-	 *            The input Stirng
-	 * @return The Tree Representation
+	 *            The input String
+	 * @return The TreeNode corresponding to the root of the tree
 	 * @throws TreeIOException
-	 *             his exception is trown if any problem in the tree IO phase is
+	 *             his exception is thrown if any problem in the tree IO phase is
 	 *             experimented
 	 */
-	public TreeRepresentation parseCharniakSentence(String sentence)
+	public TreeNode parseCharniakSentence(String sentence)
 			throws TreeIOException {
 		String inputString = sentence.trim();
 		inputString = _preprocess(inputString);
 		inputString = inputString.replaceAll(" ", "");
-		TreeNode root = _parseCharniakSentence(inputString, null, 1);
-		return new TreeRepresentation(root);
+		return _parseCharniakSentence(inputString, null, 1);
+		
 	}
 
 	/**
 	 * This recursive function allows to read the tree encoded in a string in
-	 * the parenthetic form, such as (S(NP)(VP))
+	 * the parentheses form, such as (S(NP)(VP))
 	 * 
 	 * @param sentence
 	 * @param father

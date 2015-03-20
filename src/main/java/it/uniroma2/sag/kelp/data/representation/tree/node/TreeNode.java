@@ -61,6 +61,12 @@ public class TreeNode implements Serializable {
 	 * string is S->NP,VP
 	 */
 	private String production;
+	
+	/**
+	 * A string encoding the node production, e.g. in (S(NP)(VP)) the production
+	 * string is S->NP,VP. Leaf children are ignored
+	 */
+	private String productionIgnoringLeaves;
 
 	public TreeNode(int id, StructureElement content, TreeNode father) {
 		this.id = id;
@@ -157,6 +163,31 @@ public class TreeNode implements Serializable {
 		}
 
 		return production;
+	}
+	
+	/**
+	 * Get the node production in the form of string. It is a string encoding
+	 * the node production, e.g. in (S(NP)(VP)) the production string is S->NP,VP. 
+	 *  Leaf children are ignored
+	 * 
+	 * @return the node production as a string. Leaf children are ignored
+	 */
+	public String getProductionIgnoringLeaves() {
+		if (productionIgnoringLeaves != null)
+			return productionIgnoringLeaves;
+
+		//production = this.content.getTextFromData() + "->";
+		productionIgnoringLeaves = StructureElementFactory.getTextualRepresentation(this.content) + "->";
+
+		for (TreeNode child : children) {
+			if(!child.hasChildren()){
+				continue;
+			}
+			//production += child.getContent().getTextFromData() + " ";
+			productionIgnoringLeaves += StructureElementFactory.getTextualRepresentation(child.getContent()) + " ";
+		}
+
+		return productionIgnoringLeaves;
 	}
 	
 	/**
@@ -261,5 +292,19 @@ public class TreeNode implements Serializable {
 			}
 		}
 		return max;
+	}
+	
+	/**
+	 * Returns whether this node has at least a child that is a leaf (i.e. the child is terminal)
+	 * 
+	 * @return whether this node is preterminal
+	 */
+	public boolean isPreterminal(){
+		for(TreeNode child : this.children){
+			if(!child.hasChildren()){
+				return true;
+			}
+		}
+		return false;
 	}
 }
