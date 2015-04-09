@@ -265,13 +265,7 @@ public class TreeRepresentation implements Representation {
 	@JsonIgnore
 	public List<TreeNode> getLeaves(){
 
-		ArrayList<TreeNode> nodes = new ArrayList<TreeNode>();
-		for(TreeNode node : this.getOrderedNodeSetByLabel()){
-			if(!node.hasChildren()){
-				nodes.add(node);
-			}
-		}
-		return nodes;
+		return root.getLeaves();
 	}
 	
 	/**

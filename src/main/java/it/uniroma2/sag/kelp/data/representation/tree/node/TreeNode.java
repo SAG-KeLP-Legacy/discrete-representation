@@ -75,6 +75,11 @@ public class TreeNode implements Serializable {
 	public StructureElement getContent(){
 		return this.content;
 	}
+	
+	public void setContent(StructureElement content){
+		this.content=content;
+		this.updateProduction();
+	}
 
 	/**
 	 * Get recursively all Tree Nodes below the target node
@@ -188,8 +193,10 @@ public class TreeNode implements Serializable {
 	 */
 	public void updateProduction(){
 		this.production = null;
+		this.productionIgnoringLeaves = null;
 		if(this.father!=null){
 			this.father.production=null;
+			this.father.productionIgnoringLeaves = null;
 		}
 	}
 
@@ -297,5 +304,22 @@ public class TreeNode implements Serializable {
 			}
 		}
 		return false;
+	}
+	
+	public List<TreeNode> getLeaves(){
+		List<TreeNode> leaves = new ArrayList<TreeNode>();
+		for(TreeNode node : this.getAllNodes()){
+			if(!node.hasChildren()){
+				leaves.add(node);
+			}
+		}
+		return leaves;
+	}
+	
+	public TreeNode getRoot(){
+		if(this.father==null){
+			return this;
+		}
+		return father.getRoot();
 	}
 }
