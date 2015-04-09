@@ -73,11 +73,6 @@ public class TreeNode implements Serializable {
 		this.children = new ArrayList<TreeNode>();
 		this.father = father;
 	}
-	
-	@JsonIgnore
-	public void setContent(StructureElement content) {
-		this.content = content;
-	}
 
 	@JsonIgnore
 	public StructureElement getContent(){
