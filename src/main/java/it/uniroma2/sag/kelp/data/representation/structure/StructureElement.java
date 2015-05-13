@@ -72,7 +72,7 @@ public abstract class StructureElement implements Serializable {
 	 * @return the additional information identified by <code>infoName</code>;
 	 * <code>null</node> if that information is not contained
 	 */
-	public Object getAdditinalInformation(String infoName){
+	public Object getAdditionalInformation(String infoName){
 		return this.additionalInformation.get(infoName);
 	}
 	
