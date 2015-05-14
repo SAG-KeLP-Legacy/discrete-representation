@@ -26,7 +26,7 @@ import it.uniroma2.sag.kelp.wordspace.WordspaceI;
 
 /**
  * 
- * This class implements functions to enrich <code>LexcalStructureElement</code>
+ * This class implements functions to enrich <code>LexicalStructureElement</code>
  * s with a vector from the Word Space. This is useful to avoid the
  * computational cost of re-load vectors for estimating a similarity function
  * within the <code>VectorBasedStructureElementSimilarity</code>
@@ -57,7 +57,7 @@ public class LexicalStructureElementManipulator implements Manipulator {
 	}
 
 	/**
-	 * This function enriches each <code>LexcalStructureElement</code> in the
+	 * This function enriches each <code>LexicalStructureElement</code> in the
 	 * tree with a vector from the Word Space
 	 * 
 	 * @param treeRepresentation
