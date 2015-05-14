@@ -76,10 +76,11 @@ public class LexicalStructureElementManipulator implements Manipulator {
 
 	@Override
 	public void manipulate(Example example) {
-		enrichTreeRepresentation(
-				(TreeRepresentation) example
-						.getRepresentation(representationToBeEnriched),
-				wordSpace, enrichmentName);
+		TreeRepresentation tree = (TreeRepresentation) example.getRepresentation(representationToBeEnriched);
+		if(tree!=null){
+			enrichTreeRepresentation(tree, wordSpace, enrichmentName);
+		}
+	
 	}
 
 }
