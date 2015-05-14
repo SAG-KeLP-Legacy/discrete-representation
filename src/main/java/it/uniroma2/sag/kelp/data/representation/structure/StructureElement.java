@@ -108,7 +108,10 @@ public abstract class StructureElement implements Serializable {
 		
 		output+= "{";
 		for(Entry<String, Object> entry: this.additionalInformation.entrySet()){
-			output+=entry.getKey() + entry.getValue().toString();
+			output+=entry.getKey();
+			if(entry.getValue()!=null){
+				output += entry.getValue().toString();
+			}
 		}
 		return output+"}";
 	}
