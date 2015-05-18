@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 Simone Filice and Giuseppe Castellucci and Danilo Croce and Roberto Basili
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package it.uniroma2.sag.kelp.data.representation.structure.similarity.compositional.sum;
 
 import it.uniroma2.sag.kelp.data.example.Example;
@@ -17,10 +32,15 @@ import java.io.IOException;
  * This class implements a specific node similarity that computes the similarity
  * between compositional nodes, by applying the "sum" operator.
  * 
+ * </br></br> For more details: </br> [Annesi et al(2014)] Paolo Annesi, Danilo
+ * Croce, Roberto Basili (2014) Semantic Compositionality in Tree Kernels. In:
+ * Proceedings of the 23rd ACM International Conference on Conference on
+ * Information and Knowledge Management
+ * 
  * @author Giuseppe Castellucci
  */
-public class CompositionalNodeSimilaritySum extends
-		CompositionalNodeSimilarity implements Manipulator {
+public class CompositionalNodeSimilaritySum extends CompositionalNodeSimilarity
+		implements Manipulator {
 	private String representationToBeEnriched;
 
 	/**
@@ -29,7 +49,7 @@ public class CompositionalNodeSimilaritySum extends
 	 */
 	public CompositionalNodeSimilaritySum() {
 		super();
-		enrichmentName="COMP_SUM";
+		enrichmentName = "COMP_SUM";
 	}
 
 	/**
@@ -47,7 +67,7 @@ public class CompositionalNodeSimilaritySum extends
 	public CompositionalNodeSimilaritySum(WordspaceI wordspace)
 			throws NumberFormatException, IOException {
 		super(wordspace);
-		enrichmentName="COMP_SUM";
+		enrichmentName = "COMP_SUM";
 	}
 
 	/**
@@ -71,7 +91,7 @@ public class CompositionalNodeSimilaritySum extends
 			boolean posRestriction, boolean syntacticRestriction)
 			throws NumberFormatException, IOException {
 		super(wordspace, posRestriction, syntacticRestriction);
-		enrichmentName="COMP_SUM";
+		enrichmentName = "COMP_SUM";
 	}
 
 	/**
@@ -82,7 +102,8 @@ public class CompositionalNodeSimilaritySum extends
 	}
 
 	/**
-	 * @param representationToBeEnriched the representationToBeEnriched to set
+	 * @param representationToBeEnriched
+	 *            the representationToBeEnriched to set
 	 */
 	public void setRepresentationToBeEnriched(String representationToBeEnriched) {
 		this.representationToBeEnriched = representationToBeEnriched;
@@ -113,7 +134,7 @@ public class CompositionalNodeSimilaritySum extends
 				return 0.0f;
 			}
 		}
-			
+
 		return getSimilarity(storedSx, storedSz);
 	}
 
@@ -135,8 +156,8 @@ public class CompositionalNodeSimilaritySum extends
 	 * 
 	 * @return the compositional Vector
 	 */
-	public Vector getCompositionalInformationFor(
-			LexicalStructureElement head, LexicalStructureElement modifier) {
+	public Vector getCompositionalInformationFor(LexicalStructureElement head,
+			LexicalStructureElement modifier) {
 		Vector hVec = getWordspace().getVector(head.getTextFromData());
 		Vector mVec = getWordspace().getVector(modifier.getTextFromData());
 
@@ -159,10 +180,10 @@ public class CompositionalNodeSimilaritySum extends
 		Vector sum = hExample.copyVector();
 		sum.add(mExample);
 		sum.normalize();
-		
+
 		return sum;
 	}
-	
+
 	@Override
 	public void manipulate(Example example) {
 		TreeRepresentation repr = (TreeRepresentation) example
@@ -183,11 +204,10 @@ public class CompositionalNodeSimilaritySum extends
 			if (node.getContent() instanceof CompositionalStructureElement) {
 				CompositionalStructureElement el = (CompositionalStructureElement) node
 						.getContent();
-				Vector compositionalInfo = getCompositionalInformationFor(el.getHead(),
-								el.getModifier());
+				Vector compositionalInfo = getCompositionalInformationFor(
+						el.getHead(), el.getModifier());
 
-				el.addAdditionalInformation(enrichmentName,
-						compositionalInfo);
+				el.addAdditionalInformation(enrichmentName, compositionalInfo);
 			}
 		}
 	}
