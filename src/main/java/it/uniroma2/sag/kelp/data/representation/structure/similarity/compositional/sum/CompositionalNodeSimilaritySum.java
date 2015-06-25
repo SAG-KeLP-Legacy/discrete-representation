@@ -142,7 +142,7 @@ public class CompositionalNodeSimilaritySum extends CompositionalNodeSimilarity
 	 * This method takes in input two LexicalStructureElement representing a
 	 * head and a modifier. It returns an Example that contains a
 	 * representation, whose name is <code>VECTOR_NAME</code>, containing the
-	 * sum of the two vector representations of the head and modifier. In case
+	 * sum of the two Vector representations of the head and modifier. In case
 	 * of missing head, the resulting composition is obtained by copying the
 	 * modifier in the head. In case of missing modifier, the resulting
 	 * composition is obtained by copying the head in the modifier. In case of
@@ -152,7 +152,7 @@ public class CompositionalNodeSimilaritySum extends CompositionalNodeSimilarity
 	 * @param modifier
 	 * @param ws
 	 *            the StructureElementSimilarityWordSpace used to retrieve the
-	 *            vector representations of head and modifiers.
+	 *            Vector representations of head and modifiers.
 	 * 
 	 * @return the compositional Vector
 	 */
