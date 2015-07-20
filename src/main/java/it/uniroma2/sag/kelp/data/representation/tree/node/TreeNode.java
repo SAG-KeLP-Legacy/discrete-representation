@@ -22,8 +22,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 
 /**
  * A TreeNode represents a generic node in a TreeRepresentation
@@ -74,7 +72,6 @@ public class TreeNode implements Serializable {
 		this.father = father;
 	}
 
-	@JsonIgnore
 	public StructureElement getContent(){
 		return this.content;
 	}
