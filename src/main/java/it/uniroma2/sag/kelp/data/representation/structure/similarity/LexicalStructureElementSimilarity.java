@@ -43,6 +43,7 @@ VectorBasedStructureElementSimilarity {
 	//			.getLogger(StructureElementSimilarityOnRel.class);
 
 	private boolean allowDifferentPOS = false;
+	private boolean ignorePosInLemmaMatches = false;
 
 
 	public LexicalStructureElementSimilarity() {
@@ -94,6 +95,13 @@ VectorBasedStructureElementSimilarity {
 		if(element1 instanceof LexicalStructureElement ){
 			LexicalStructureElement lex1 = (LexicalStructureElement) element1;
 			LexicalStructureElement lex2 = (LexicalStructureElement) element2;
+			
+			if(ignorePosInLemmaMatches){
+				if(lex1.getLemma().equals(lex2.getLemma())){
+					return 1;
+				}
+			}
+			
 			if(!allowDifferentPOS){
 				String pos1 = lex1.getPos();
 				String pos2 = lex2.getPos();
@@ -132,6 +140,28 @@ VectorBasedStructureElementSimilarity {
 	 */
 	public void setAllowDifferentPOS(boolean allowDifferentPOS) {
 		this.allowDifferentPOS = allowDifferentPOS;
+	}
+
+	/**
+	 * Returns whether two lexical structure elements must provide a perfect match if their lemmas are the same,
+	 * regardless their part-of-speeches
+	 * 
+	 * @return whether two lexical structure elements must provide a perfect match if their lemmas are the same,
+	 * regardless their part-of-speeches
+	 */
+	public boolean getIgnorePosInLemmaMatches() {
+		return ignorePosInLemmaMatches;
+	}
+
+	/**
+	 * Sets whether two lexical structure elements must provide a perfect match if their lemmas are the same,
+	 * regardless their part-of-speeches
+	 * 
+	 * @param ignorePosInLemmaMatches whether two lexical structure elements must provide a perfect match if their lemmas are the same,
+	 * regardless their part-of-speeches
+	 */
+	public void setIgnorePosInLemmaMatches(boolean ignorePosInLemmaMatches) {
+		this.ignorePosInLemmaMatches = ignorePosInLemmaMatches;
 	}
 
 
