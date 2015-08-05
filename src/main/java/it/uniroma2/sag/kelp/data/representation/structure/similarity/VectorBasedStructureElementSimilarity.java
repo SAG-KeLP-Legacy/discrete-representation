@@ -67,7 +67,8 @@ public abstract class VectorBasedStructureElementSimilarity implements Structure
 	 */
 	public void setKernel(Kernel kernel) {
 		this.kernel = kernel;
-		kernel.disableCache();
+		if(kernel!=null)
+			kernel.disableCache();
 	}
 
 	/**
