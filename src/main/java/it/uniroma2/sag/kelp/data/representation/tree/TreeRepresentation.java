@@ -27,6 +27,8 @@ import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.lang3.SerializationUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -40,6 +42,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("T")
 public class TreeRepresentation implements Representation {
 
+	
+	private Logger logger = LoggerFactory.getLogger(TreeRepresentation.class);
 	private static final long serialVersionUID = 5856527731146702094L;
 
 	/**
@@ -291,6 +295,15 @@ public class TreeRepresentation implements Representation {
 			}
 		}
  		return nodes;
+	}
+	
+	@Override
+	public boolean isCompatible(Representation rep) {
+		if (!( rep instanceof TreeRepresentation)){
+			logger.error("incompatible representations: " + this.getClass().getSimpleName() + " vs " + rep.getClass().getSimpleName());
+			return false;
+		}
+		return true;
 	}
 
 }

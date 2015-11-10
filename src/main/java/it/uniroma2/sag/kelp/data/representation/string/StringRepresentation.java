@@ -17,6 +17,9 @@ package it.uniroma2.sag.kelp.data.representation.string;
 
 import it.uniroma2.sag.kelp.data.representation.Representation;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
@@ -29,6 +32,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeName("S")
 public class StringRepresentation implements Representation {
+	private Logger logger = LoggerFactory.getLogger(StringRepresentation.class);
 	private static final long serialVersionUID = 7545341469080995862L;
 
 	private String string;
@@ -89,5 +93,14 @@ public class StringRepresentation implements Representation {
 	@Override
 	public String getTextFromData() {
 		return this.toString();
+	}
+	
+	@Override
+	public boolean isCompatible(Representation rep) {
+		if (!( rep instanceof StringRepresentation)){
+			logger.error("incompatible representations: " + this.getClass().getSimpleName() + " vs " + rep.getClass().getSimpleName());
+			return false;
+		}
+		return true;
 	}
 }
